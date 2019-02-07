@@ -10,8 +10,7 @@ class Afinn(object):
         scores=self.afinn.scores(tweet.lower())
         total = len(scores)
 
-        if total == 0:
-            return 0
+        if total == 0: return None
         else: 
             if return_type == 'Sum': return sum(scores)
             elif return_type ==	 'Average': return sum(scores) / total

@@ -208,11 +208,11 @@ class SentimentIntensityAnalyzer(object):
     def __init__(self,lex_dict = None, lex_sep = None, emoji_dict = None, emoji_sep = None,):
         
         if lex_dict == None:
-            lex_dict = 'sentiment_tools/vader_lexicon.txt'
+            lex_dict = 'sentiment_tools/data/vader_lexicon.txt'
         self.lex_dict = lex_dict
 
         if emoji_dict == None:
-            emoji_dict = 'sentiment_tools/emoji_utf8_lexicon.txt'
+            emoji_dict = 'sentiment_tools/data/emoji_utf8_lexicon.txt'
         self.emoji_dict = emoji_dict
 
         if lex_sep == None:

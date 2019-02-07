@@ -1,5 +1,9 @@
 # How to use
 
+## Some techniques have two possible methods. 'Sum' finds the sum of the values per tweet while 'Average' finds the mean value per tweet. Only words with a score are counted.
+
+## Returns NA if there are no words that match. 
+
 ```python
 import sentiment_tools
 tweet = 'This package is great!!'

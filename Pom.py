@@ -8,7 +8,7 @@ class Pom(object):
         self.poms = self.Setup()
 
     def Setup(self):
-        poms = pd.read_csv('sentiment_tools/POMS.csv', sep = '\t', index_col='Word')
+        poms = pd.read_csv('sentiment_tools/data/POMS.csv', sep = '\t', index_col='Word')
         columns = ['composed/anxious', 'agreeable/hostile','elated/depressed',
         'confident/unsure', 'clearheaded/confused', 'energetic/tired']
         poms_dict = dict([(i,np.array([a,b,c,d,e,f])) for i, a,b,c,d,e,f in 
@@ -37,17 +37,20 @@ class Pom(object):
                 results['clearheaded/confused'] += self.poms[word][4]
                 results['energetic/tired'] += self.poms[word][5]
 
+        if total == 0: 
+            return  {'composed/anxious': None, 'agreeable/hostile': None, 
+            'elated/depressed': None, 'confident/unsure': None, 
+            'clearheaded/confused': None, 'energetic/tired': None}
+
         if return_type == 'Sum': return results
         elif return_type == 'Average':
-            if total:
-                results['composed/anxious'] = results['composed/anxious'] / total
-                results['agreeable/hostile'] = results['agreeable/hostile'] / total
-                results['elated/depressed'] = results['elated/depressed']  / total
-                results['confident/unsure'] = results['confident/unsure']  / total
-                results['clearheaded/confused'] = results['clearheaded/confused']  / total
-                results['energetic/tired'] = results['energetic/tired']  / total
-                return results
-            else:
-                return results
+            results['composed/anxious'] = results['composed/anxious'] / total
+            results['agreeable/hostile'] = results['agreeable/hostile'] / total
+            results['elated/depressed'] = results['elated/depressed']  / total
+            results['confident/unsure'] = results['confident/unsure']  / total
+            results['clearheaded/confused'] = results['clearheaded/confused']  / total
+            results['energetic/tired'] = results['energetic/tired']  / total
+            return results
+
 
 
