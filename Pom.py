@@ -1,11 +1,13 @@
 import numpy as np
 import pandas as pd
+import re
 
 class Pom(object):
 
     def __init__(self):
 
         self.poms = self.Setup()
+        self.punc_replace = lambda x: re.sub(r'[^\w\s]','',x)
 
     def Setup(self):
         poms = pd.read_csv('sentiment_tools/data/POMS.csv', sep = '\t', index_col='Word')
@@ -27,7 +29,8 @@ class Pom(object):
         'clearheaded/confused':0,
         'energetic/tired':0}
 
-        for word in tweet.lower().split(' '):
+        tweet = self.punc_replace(tweet).lower().split(' ')
+        for word in tweet:
             if word in self.poms:
                 total += 1
                 results['composed/anxious'] += self.poms[word][0]

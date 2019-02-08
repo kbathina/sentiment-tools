@@ -1,9 +1,11 @@
 import numpy as np
+import re
 
 class OpinionFinder(object):
 
     def __init__(self):
         self.OP = self.Setup()
+        self.punc_replace = lambda x: re.sub(r'[^\w\s]','',x)
 
     def Setup(self):
         with open('sentiment_tools/data/OpFi-Sent.txt','r') as f:
@@ -16,7 +18,8 @@ class OpinionFinder(object):
     def Score(self,tweet, return_type):
         total = 0
         sent = 0
-        for word in tweet.lower().split(' '):
+        tweet = self.punc_replace(tweet).lower().split(' ')
+        for word in tweet:
             if word in self.OP:
                 total += 1
                 sent += self.OP[word]  
