@@ -20,19 +20,19 @@ sentiment_ave,tokenized_list_of_words_ave = OF.Score(tweet,'Average')
 
 print('OpinionFinder Sum =', sentiment_sum)
 ```
-OpinionFinder Sum = 2.0
+	OpinionFinder Sum = 2.0
 ```python
 print('Tokenized list (from Sum) =', tokenized_list_of_words_sum)
 ```
-Tokenized list (from Sum) = ['best', 'easy']
+	Tokenized list (from Sum) = ['best', 'easy']
 ```python
 print('OpinionFinder Average =', sentiment_ave)
 ```
-OpinionFinder Average = 1.0
+	OpinionFinder Average = 1.0
 ```python
 print('Tokenized list (from Average) =', tokenized_list_of_words_ave)
 ```
-Tokenized list (from Average) = ['best', 'easy']
+	Tokenized list (from Average) = ['best', 'easy']
 
 
 ## Vader
