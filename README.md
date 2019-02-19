@@ -48,13 +48,10 @@ Vader Scoring Dimensions = ['neu', 'neg', 'compound', 'pos']
 for dimension in sentiment_vader.keys():
 	 	print(dimension + ' score =', sentiment_vader[dimension])
 ```
-neu score = 0.589
-
-neg score = 0.0
-
-compound score = 0.8264
-
-pos score = 0.411
+neu score = 0.589  
+neg score = 0.0  
+compound score = 0.8264  
+pos score = 0.411  
 ```python
 print('Tokenized list =', tokenized_list_of_words_vader)
 ```
@@ -70,10 +67,10 @@ sentiment_vader, tokenized_list_of_words_vader = OF_Vader.polarity_scores(tweet)
 for dimension in sentiment_vader.keys():
 	print(dimension + ' score =', sentiment_vader[dimension])
 ```
-neu score = 0.729
-neg score = 0.0
-compound score = 0.4738
-pos score = 0.271
+neu score = 0.729  
+neg score = 0.0  
+compound score = 0.4738  
+pos score = 0.271  
 ```python
 print('Tokenized list =', tokenized_list_of_words_vader)
 ```
@@ -95,17 +92,17 @@ for dimension in sentiment_sum.keys():
 	print(dimension + ' score (Sum) =', sentiment_sum[dimension])
 	print(dimension + ' score (Average) =', sentiment_ave[dimension])
 ```
-Arousal score (Sum) = 16.17
-Arousal score (Average) = 4.0425
-Valence score (Sum) = 23.369999999999997
-Valence score (Average) = 5.842499999999999
-Dominance score (Sum) = 22.37
-Dominance score (Average) = 5.5925
+Arousal score (Sum) = 16.17  
+Arousal score (Average) = 4.0425  
+Valence score (Sum) = 23.369999999999997  
+Valence score (Average) = 5.842499999999999  
+Dominance score (Sum) = 22.37  
+Dominance score (Average) = 5.5925  
 ```python
 print(tokenized_list_of_words_sum)
 print(tokenized_list_of_words_sum == tokenized_list_of_words_ave)
 ```
-['thing', 'package', 'easy', 'use']
+['thing', 'package', 'easy', 'use']  
 True
 
 
@@ -125,23 +122,23 @@ for dimension in a_sentiment.keys():
 	print('Valence score ' + dimension + ' =', v_sentiment[dimension])
 	print('Dominance score ' + dimension + ' =', d_sentiment[dimension])
 ```
-Arousal score neu = 0.302
-Valence score neu = 0.244
-Dominance score neu = 0.25
-Arousal score neg = 0.0
-Valence score neg = 0.0
-Dominance score neg = 0.0
-Arousal score compound = 0.9743
-Valence score compound = 0.9872
-Dominance score compound = 0.9861
-Arousal score pos = 0.698
-Valence score pos = 0.756
-Dominance score pos = 0.75
+Arousal score neu = 0.302  
+Valence score neu = 0.244  
+Dominance score neu = 0.25  
+Arousal score neg = 0.0  
+Valence score neg = 0.0  
+Dominance score neg = 0.0  
+Arousal score compound = 0.9743  
+Valence score compound = 0.9872  
+Dominance score compound = 0.9861  
+Arousal score pos = 0.698  
+Valence score pos = 0.756  
+Dominance score pos = 0.75  
 ```python
 print(a_tokens)
 print(a_tokens == v_tokens == d_tokens)
 ```
-['The', 'best', 'thing', 'about', 'this', 'package', 'is', 'how', 'easy', 'it', 'is', 'to', 'use']
+['The', 'best', 'thing', 'about', 'this', 'package', 'is', 'how', 'easy', 'it', 'is', 'to', 'use']  
 True
 
 ## Afinn
@@ -155,13 +152,13 @@ sentiment_afinn_ave, tokens_afinn_ave = afinn.Score(tweet,'Average')
 print('Afinn score (Sum) =', sentiment_afinn_sum)
 print('Afinn score (Average) =', sentiment_afinn_ave)
 ```
-Afinn score (Sum) = 4.0
+Afinn score (Sum) = 4.0  
 Afinn score (Average) = 2.0
 ```python
 print(tokens_afinn_sum)
 print(tokens_afinn_sum == tokens_afinn_ave)
 ```
-['best', 'easy']
+['best', 'easy']  
 True
 
 ## POM
@@ -176,21 +173,21 @@ for dimension in sentiment_gpoms_sum.keys():
 	print(dimension + ' score (Sum) =', sentiment_gpoms_sum[dimension])
 	print(dimension + ' score (Average) =', sentiment_gpoms_ave[dimension])
 ```
-agreeable/hostile score (Sum) = 0.106
-agreeable/hostile score (Average) = 0.106
-confident/unsure score (Sum) = 0.737
-confident/unsure score (Average) = 0.737
-energetic/tired score (Sum) = 0.003
-energetic/tired score (Average) = 0.003
-composed/anxious score (Sum) = 0.023
-composed/anxious score (Average) = 0.023
-clearheaded/confused score (Sum) = 0.127
-clearheaded/confused score (Average) = 0.127
-elated/depressed score (Sum) = 0.0
-elated/depressed score (Average) = 0.0
+agreeable/hostile score (Sum) = 0.106  
+agreeable/hostile score (Average) = 0.106  
+confident/unsure score (Sum) = 0.737  
+confident/unsure score (Average) = 0.737  
+energetic/tired score (Sum) = 0.003  
+energetic/tired score (Average) = 0.003  
+composed/anxious score (Sum) = 0.023  
+composed/anxious score (Average) = 0.023  
+clearheaded/confused score (Sum) = 0.127  
+clearheaded/confused score (Average) = 0.127  
+elated/depressed score (Sum) = 0.0  
+elated/depressed score (Average) = 0.0  
 ```python
 print(tokens_gpoms_sum)
 print(tokens_gpoms_sum == tokens_gpoms_ave)
 ```
-['easy']
+['easy']  
 True
