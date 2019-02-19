@@ -20,19 +20,19 @@ sentiment_ave,tokenized_list_of_words_ave = OF.Score(tweet,'Average')
 
 print('OpinionFinder Sum =', sentiment_sum)
 ```
-	OpinionFinder Sum = 2.0
+OpinionFinder Sum = 2.0
 ```python
 print('Tokenized list (from Sum) =', tokenized_list_of_words_sum)
 ```
-	Tokenized list (from Sum) = ['best', 'easy']
+Tokenized list (from Sum) = ['best', 'easy']
 ```python
 print('OpinionFinder Average =', sentiment_ave)
 ```
-	OpinionFinder Average = 1.0
+OpinionFinder Average = 1.0
 ```python
 print('Tokenized list (from Average) =', tokenized_list_of_words_ave)
 ```
-	Tokenized list (from Average) = ['best', 'easy']
+Tokenized list (from Average) = ['best', 'easy']
 
 
 ## Vader
@@ -49,8 +49,11 @@ for dimension in sentiment_vader.keys():
 	 	print(dimension + ' score =', sentiment_vader[dimension])
 ```
 neu score = 0.589
+
 neg score = 0.0
+
 compound score = 0.8264
+
 pos score = 0.411
 ```python
 print('Tokenized list =', tokenized_list_of_words_vader)
