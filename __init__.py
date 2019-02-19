@@ -13,6 +13,6 @@ from sentiment_tools import Anew
 
 from sentiment_tools import OpinionFinder
 
-from sentiment_tools import Pom
+from sentiment_tools import GPOMS
 
 from sentiment_tools import Afinn

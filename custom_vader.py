@@ -288,7 +288,7 @@ class SentimentIntensityAnalyzer(object):
 
         valence_dict = self.score_valence(sentiments, text)
 
-        return valence_dict
+        return valence_dict, words_and_emoticons
 
     def sentiment_valence(self, valence, sentitext, item, i, sentiments):
         is_cap_diff = sentitext.is_cap_diff

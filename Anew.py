@@ -7,7 +7,6 @@ class Anew(object):
     def __init__(self):
 
         self.words, self.Arousal, self.Dominance, self.Valence = self.Setup()
-        self.punc_replace = lambda x: re.sub(r'[^\w\s]','',x)
 
     def Setup(self):
 
@@ -27,24 +26,29 @@ class Anew(object):
 
         return words, Arousal, Dominance, Valence
 
+    def punc_replace(self,tweet):
+        return re.sub(r'[^\w\s]','',tweet)
+
     def Score(self,tweet, return_type):
         total = 0
         results = {'Valence':0, 'Arousal':0, 'Dominance':0}
-        tweet = self.punc_replace(tweet).lower().split(' ')
+        tokenized_list = self.punc_replace(tweet).lower().split(' ')
+        tokens_in_wordlist = []
 
-        for word in tweet:
+        for word in tokenized_list:
             if word in self.words:
+                tokens_in_wordlist.append(word)
                 total += 1
                 results['Valence'] += self.Valence[word]
                 results['Arousal'] += self.Arousal[word]
                 results['Dominance'] += self.Dominance[word]
 
-        if total == 0: return {'Valence':None, 'Arousal':None, 'Dominance':None}
+        if total == 0: return [{'Valence':None, 'Arousal':None, 'Dominance':None}, tokens_in_wordlist]
 
-        if return_type == 'Sum': return results
+        if return_type == 'Sum': return [results, tokens_in_wordlist]
         elif return_type == 'Average':
             results['Valence'] = results['Valence'] / total
             results['Arousal'] = results['Arousal'] / total
             results['Dominance'] = results['Dominance'] / total
-            return results
+            return [results, tokens_in_wordlist]
 

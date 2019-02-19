@@ -5,7 +5,6 @@ class OpinionFinder(object):
 
     def __init__(self):
         self.OP = self.Setup()
-        self.punc_replace = lambda x: re.sub(r'[^\w\s]','',x)
 
     def Setup(self):
         with open('sentiment_tools/data/OpFi-Sent.txt','r') as f:
@@ -15,16 +14,22 @@ class OpinionFinder(object):
 
         return OP
 
+    def punc_replace(self,tweet):
+        return re.sub(r'[^\w\s]','',tweet)
+
     def Score(self,tweet, return_type):
         total = 0
         sent = 0
-        tweet = self.punc_replace(tweet).lower().split(' ')
-        for word in tweet:
+        tokenized_list = self.punc_replace(tweet).lower().split(' ')
+        tokens_in_wordlist = []
+
+        for word in tokenized_list:
             if word in self.OP:
+                tokens_in_wordlist.append(word)
                 total += 1
                 sent += self.OP[word]  
 
-        if total == 0: return None
+        if total == 0: return [None, tokens_in_wordlist]
         else: 
-            if return_type == 'Sum': return sent
-            elif return_type ==	 'Average': return sent/total 
+            if return_type == 'Sum': return [sent, tokens_in_wordlist]
+            elif return_type ==	 'Average': return [sent/total, tokens_in_wordlist]

@@ -7,10 +7,12 @@ class Afinn(object):
         self.afinn = afinn.Afinn()
     def Score(self,tweet, return_type): # for average, only counts words if it exists norms
         
-        scores=self.afinn.scores(tweet.lower())
-        total = len(scores)
+        tweet_lower = tweet.lower()
+        score=self.afinn.score(tweet_lower)
+        tokens_in_wordlist = self.afinn.find_all(tweet_lower)
+        total = len(tokens_in_wordlist)
 
-        if total == 0: return None
+        if total == 0: return [None, tokens_in_wordlist]
         else: 
-            if return_type == 'Sum': return sum(scores)
-            elif return_type ==	 'Average': return sum(scores) / total
+            if return_type == 'Sum': return [score, tokens_in_wordlist]
+            elif return_type ==	 'Average': return [score/total, tokens_in_wordlist]
