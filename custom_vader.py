@@ -288,7 +288,13 @@ class SentimentIntensityAnalyzer(object):
 
         valence_dict = self.score_valence(sentiments, text)
 
-        return valence_dict, words_and_emoticons
+        # only save tokens that have a sentiment
+        interested_tokens = []
+        for index in range(len(words_and_emoticons)):
+            if sentiments[index] != 0:
+                interested_tokens.append(words_and_emoticons[index])
+
+        return valence_dict, interested_tokens
 
     def sentiment_valence(self, valence, sentitext, item, i, sentiments):
         is_cap_diff = sentitext.is_cap_diff
