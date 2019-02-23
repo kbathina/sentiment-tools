@@ -10,6 +10,7 @@ class GPOMS(object):
 
     def Setup(self):
         gpoms = pd.read_csv('sentiment_tools/data/GPOMS.csv', sep = '\t', index_col='Word')
+        gpoms = gpoms.replace({0: None})
         columns = ['composed/anxious', 'agreeable/hostile','elated/depressed',
         'confident/unsure', 'clearheaded/confused', 'energetic/tired']
         gpoms_dict = dict([(i,np.array([a,b,c,d,e,f])) for i, a,b,c,d,e,f in 
@@ -32,31 +33,53 @@ class GPOMS(object):
         'energetic/tired':0}
 
         tokenized_list = self.punc_replace(tweet).lower().split(' ')
-        tokens_in_wordlist = []
+        tokens_in_wordlist = {'composed/anxious':[],'agreeable/hostile':[],
+        'elated/depressed':[],'confident/unsure':[],'clearheaded/confused':[],'energetic/tired':[]}
+        totals = {'composed/anxious':0,'agreeable/hostile':0,
+        'elated/depressed':0,'confident/unsure':0,'clearheaded/confused':0,'energetic/tired':0}
+
         for word in tokenized_list:
             if word in self.gpoms:
-                tokens_in_wordlist.append(word)
-                total += 1
-                results['composed/anxious'] += self.gpoms[word][0]
-                results['agreeable/hostile'] += self.gpoms[word][1]
-                results['elated/depressed'] += self.gpoms[word][2]
-                results['confident/unsure'] += self.gpoms[word][3]
-                results['clearheaded/confused'] += self.gpoms[word][4]
-                results['energetic/tired'] += self.gpoms[word][5]
-
-        if total == 0: 
-            return  [{'composed/anxious': None, 'agreeable/hostile': None, 
-            'elated/depressed': None, 'confident/unsure': None, 
-            'clearheaded/confused': None, 'energetic/tired': None}, tokens_in_wordlist]
+                if type(self.gpoms[word][0]) != type(None):
+                    results['composed/anxious'] += self.gpoms[word][0]
+                    tokens_in_wordlist['composed/anxious'].append(word)
+                    totals['composed/anxious'] += 1
+                if type(self.gpoms[word][1]) != type(None):
+                    results['agreeable/hostile'] += self.gpoms[word][0]
+                    tokens_in_wordlist['agreeable/hostile'].append(word)
+                    totals['agreeable/hostile'] += 1
+                if type(self.gpoms[word][2]) != type(None):
+                    results['elated/depressed'] += self.gpoms[word][0]
+                    tokens_in_wordlist['elated/depressed'].append(word)
+                    totals['elated/depressed'] += 1                    
+                if type(self.gpoms[word][3]) != type(None):
+                    results['confident/unsure'] += self.gpoms[word][0]
+                    tokens_in_wordlist['confident/unsure'].append(word)
+                    totals['confident/unsure'] += 1                    
+                if type(self.gpoms[word][4]) != type(None):
+                    results['clearheaded/confused'] += self.gpoms[word][0]
+                    tokens_in_wordlist['clearheaded/confused'].append(word)
+                    totals['clearheaded/confused'] += 1                    
+                if type(self.gpoms[word][5]) != type(None):
+                    results['energetic/tired'] += self.gpoms[word][0]
+                    tokens_in_wordlist['energetic/tired'].append(word)
+                    totals['energetic/tired'] += 1                    
 
         if return_type == 'Sum': return [results, tokens_in_wordlist]
         elif return_type == 'Average':
-            results['composed/anxious'] = results['composed/anxious'] / total
-            results['agreeable/hostile'] = results['agreeable/hostile'] / total
-            results['elated/depressed'] = results['elated/depressed']  / total
-            results['confident/unsure'] = results['confident/unsure']  / total
-            results['clearheaded/confused'] = results['clearheaded/confused']  / total
-            results['energetic/tired'] = results['energetic/tired']  / total
+            if totals['composed/anxious'] > 0:
+                results['composed/anxious'] / totals['composed/anxious']
+            if totals['agreeable/hostile'] > 0:
+                results['agreeable/hostile'] / totals['agreeable/hostile']
+            if totals['elated/depressed'] > 0:
+                results['elated/depressed']  / totals['elated/depressed']
+            if totals['confident/unsure'] > 0:
+                results['confident/unsure']  / totals['confident/unsure']
+            if totals['clearheaded/confused'] > 0:
+                results['clearheaded/confused']  / totals['clearheaded/confused']
+            if totals['energetic/tired'] > 0:
+                results['energetic/tired']  / totals['energetic/tired']
+
             return [results, tokens_in_wordlist]
 
 

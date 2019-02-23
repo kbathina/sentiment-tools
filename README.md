@@ -189,5 +189,5 @@ elated/depressed score (Average) = 0.0
 print(tokens_gpoms_sum)
 print(tokens_gpoms_sum == tokens_gpoms_ave)
 ```
-['easy']  
+{'agreeable/hostile': ['easy'], 'clearheaded/confused': ['easy'], 'composed/anxious': ['easy'], 'energetic/tired': ['easy'], 'confident/unsure': ['easy'], 'elated/depressed': []} 
 True
