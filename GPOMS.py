@@ -45,23 +45,23 @@ class GPOMS(object):
                     tokens_in_wordlist['composed/anxious'].append(word)
                     totals['composed/anxious'] += 1
                 if type(self.gpoms[word][1]) != type(None):
-                    results['agreeable/hostile'] += self.gpoms[word][0]
+                    results['agreeable/hostile'] += self.gpoms[word][1]
                     tokens_in_wordlist['agreeable/hostile'].append(word)
                     totals['agreeable/hostile'] += 1
                 if type(self.gpoms[word][2]) != type(None):
-                    results['elated/depressed'] += self.gpoms[word][0]
+                    results['elated/depressed'] += self.gpoms[word][2]
                     tokens_in_wordlist['elated/depressed'].append(word)
                     totals['elated/depressed'] += 1                    
                 if type(self.gpoms[word][3]) != type(None):
-                    results['confident/unsure'] += self.gpoms[word][0]
+                    results['confident/unsure'] += self.gpoms[word][3]
                     tokens_in_wordlist['confident/unsure'].append(word)
                     totals['confident/unsure'] += 1                    
                 if type(self.gpoms[word][4]) != type(None):
-                    results['clearheaded/confused'] += self.gpoms[word][0]
+                    results['clearheaded/confused'] += self.gpoms[word][4]
                     tokens_in_wordlist['clearheaded/confused'].append(word)
                     totals['clearheaded/confused'] += 1                    
                 if type(self.gpoms[word][5]) != type(None):
-                    results['energetic/tired'] += self.gpoms[word][0]
+                    results['energetic/tired'] += self.gpoms[word][5]
                     tokens_in_wordlist['energetic/tired'].append(word)
                     totals['energetic/tired'] += 1                    
 
