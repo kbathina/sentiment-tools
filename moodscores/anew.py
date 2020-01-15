@@ -1,6 +1,11 @@
 import numpy as np
 import pandas as pd
-import re
+from moodscores.helper_functions import tokenizer
+from moodscores import _ROOT,get_data
+
+AROUSAL_DATA = get_data('Anew_arousal.txt')
+VALENCE_DATA = get_data('Anew_valence.txt')
+DOMINANCE_DATA = get_data('Anew_dominance.txt')
 
 class Anew(object):
 
@@ -10,15 +15,15 @@ class Anew(object):
 
     def Setup(self):
 
-        with open('sentiment_tools/data/Anew_arousal.txt') as f:
+        with open(AROUSAL_DATA) as f:
             Arousal = [x.strip().split('\t') for x in f.readlines()]
             Arousal = {x:float(y) for x,y in Arousal}
 
-        with open('sentiment_tools/data/Anew_dominance.txt') as f:
+        with open(DOMINANCE_DATA) as f:
             Dominance = [x.strip().split('\t') for x in f.readlines()]
             Dominance = {x:float(y) for x,y in Dominance}
 
-        with open('sentiment_tools/data/Anew_valence.txt') as f:
+        with open(VALENCE_DATA) as f:
             Valence = [x.strip().split('\t') for x in f.readlines()]
             Valence = {x:float(y) for x,y in Valence}
 
@@ -26,13 +31,14 @@ class Anew(object):
 
         return words, Arousal, Dominance, Valence
 
-    def punc_replace(self,tweet):
-        return re.sub(r'[^\w\s]','',tweet)
+    def Score(self,tweet, calculation_type):
 
-    def Score(self,tweet, return_type):
+        if calculation_type != 'Sum' and calculation_type != 'Average':
+            raise ValueError("calculation_type return be 'Sum' or 'Average'")
+
         total = 0
         results = {'Valence':0, 'Arousal':0, 'Dominance':0}
-        tokenized_list = self.punc_replace(tweet).lower().split(' ')
+        tokenized_list = tokenizer(tweet)
         tokens_in_wordlist = []
 
         for word in tokenized_list:
@@ -45,8 +51,8 @@ class Anew(object):
 
         if total == 0: return [{'Valence':None, 'Arousal':None, 'Dominance':None}, tokens_in_wordlist]
 
-        if return_type == 'Sum': return [results, tokens_in_wordlist]
-        elif return_type == 'Average':
+        if calculation_type == 'Sum': return [results, tokens_in_wordlist]
+        elif calculation_type == 'Average':
             results['Valence'] = results['Valence'] / total
             results['Arousal'] = results['Arousal'] / total
             results['Dominance'] = results['Dominance'] / total

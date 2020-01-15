@@ -19,6 +19,24 @@ import json
 from itertools import product
 from inspect import getsourcefile
 
+from moodscores import _ROOT,get_data
+
+# dictionary that holds location of all data
+# lex dict, lex seperator
+CUSTOM_TYPES = {
+'Vader':[get_data('vader_lexicon.txt'),'\t'],
+'OF':[get_data('OpFi-Sent.txt'),' '],
+'ANEW_Valence':[get_data('Anew_valence.txt'),'\t'],
+'ANEW_Dominance':[get_data('Anew_dominance.txt'),'\t'],
+'ANEW_Arousal':[get_data('Anew_arousal.txt'),'\t'],
+'GPOMS_composed/anxious':[get_data('GPOMS-composed_anxious.csv'),','],
+'GPOMS_agreeable/hostile':[get_data('GPOMS-agreeable_hostile.csv'),','],
+'GPOMS_elated/depressed':[get_data('GPOMS-elated_depressed.csv'),','],
+'GPOMS_confident/unsure':[get_data('GPOMS-confident_unsure.csv'),','],
+'GPOMS_clearheaded/confused':[get_data('GPOMS-clearheaded_confused.csv'),','],
+'GPOMS_energetic/tired':[get_data('GPOMS-energetic_tired.csv'),',']
+}
+
 # ##Constants##
 
 # (empirically derived mean sentiment intensity rating increase for booster words)
@@ -205,23 +223,25 @@ class SentimentIntensityAnalyzer(object):
     """
     Give a sentiment intensity score to sentences.
     """
-    def __init__(self,lex_dict = None, lex_sep = None, emoji_dict = None, emoji_sep = None,):
+    def __init__(self, lexicon = 'Vader', lex_sep = None):
         
-        if lex_dict == None:
-            lex_dict = 'sentiment_tools/data/vader_lexicon.txt'
-        self.lex_dict = lex_dict
+        # if lex is not any valid type - return error
+        if lexicon == None:
+            raise ValueError('lexicon must be one of ' + str(list(CUSTOM_TYPES.keys())) + ' or Custom')
 
-        if emoji_dict == None:
-            emoji_dict = 'sentiment_tools/data/emoji_utf8_lexicon.txt'
-        self.emoji_dict = emoji_dict
+        #### regarding lexicons
+        # if it is one of the lexicons that is with the package: set to correct file
+        if lexicon in CUSTOM_TYPES:
+            self.lex_dict = CUSTOM_TYPES[lexicon][0]
+            self.lex_sep = CUSTOM_TYPES[lexicon][1]
+        # if it is a custom type: fill in with the user inputted file
+        else:
+            self.lex_dict = lexicon
+            self.lex_sep = lex_sep
 
-        if lex_sep == None:
-            lex_sep = '\t'
-        self.lex_sep = lex_sep
-
-        if emoji_sep == None:
-            emoji_sep = '\t'
-        self.emoji_sep = emoji_sep
+        #### regarding emojis
+        self.emoji_dict = get_data('emoji_utf8_lexicon.txt')
+        self.emoji_sep = '\t'
 
         self.lexicon = self.make_lex_dict(self.lex_dict, self.lex_sep)
         self.emojis = self.make_emoji_dict(self.emoji_dict, self.emoji_sep)
@@ -239,7 +259,7 @@ class SentimentIntensityAnalyzer(object):
 
     def make_emoji_dict(self, emoji_dict, emoji_sep):
         """
-        Convert emoji lexicon file to a dictionary
+        Convert emoji slexicon file to a dictionary
         """
         emoji = {}
         with open(emoji_dict,'r') as f:
@@ -294,7 +314,10 @@ class SentimentIntensityAnalyzer(object):
             if sentiments[index] != 0:
                 interested_tokens.append(words_and_emoticons[index])
 
-        return valence_dict, interested_tokens
+        if len(interested_tokens) == 0:
+            return {x:None for x in valence_dict}, []
+        else:
+            return valence_dict, interested_tokens
 
     def sentiment_valence(self, valence, sentitext, item, i, sentiments):
         is_cap_diff = sentitext.is_cap_diff

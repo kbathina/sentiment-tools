@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
-import re
+from moodscores.helper_functions import tokenizer
+from moodscores import _ROOT,get_data
+
+GPOMS_DATA = get_data('GPOMS.csv')
+
 
 class GPOMS(object):
 
@@ -9,8 +13,10 @@ class GPOMS(object):
         self.gpoms = self.Setup()
 
     def Setup(self):
-        gpoms = pd.read_csv('sentiment_tools/data/GPOMS.csv', sep = '\t', index_col='Word')
+
+        gpoms = pd.read_csv(GPOMS_DATA, sep = '\t', index_col='Word')
         gpoms = gpoms.replace({0: None})
+
         columns = ['composed/anxious', 'agreeable/hostile','elated/depressed',
         'confident/unsure', 'clearheaded/confused', 'energetic/tired']
         gpoms_dict = dict([(i,np.array([a,b,c,d,e,f])) for i, a,b,c,d,e,f in 
@@ -20,10 +26,12 @@ class GPOMS(object):
 
         return gpoms_dict
 
-    def punc_replace(self,tweet):
-        return re.sub(r'[^\w\s]','',tweet)
+    def Score(self,tweet, calculation_type):
 
-    def Score(self,tweet, return_type):
+        if calculation_type != 'Sum' and calculation_type != 'Average':
+            raise ValueError("calculation_type return be 'Sum' or 'Average'")
+
+
         total = 0
         results = {'composed/anxious':0, 
         'agreeable/hostile':0, 
@@ -32,7 +40,7 @@ class GPOMS(object):
         'clearheaded/confused':0,
         'energetic/tired':0}
 
-        tokenized_list = self.punc_replace(tweet).lower().split(' ')
+        tokenized_list = tokenizer(tweet)
         tokens_in_wordlist = {'composed/anxious':[],'agreeable/hostile':[],
         'elated/depressed':[],'confident/unsure':[],'clearheaded/confused':[],'energetic/tired':[]}
         totals = {'composed/anxious':0,'agreeable/hostile':0,
@@ -65,20 +73,20 @@ class GPOMS(object):
                     tokens_in_wordlist['energetic/tired'].append(word)
                     totals['energetic/tired'] += 1                    
 
-        if return_type == 'Sum': return [results, tokens_in_wordlist]
-        elif return_type == 'Average':
+        if calculation_type == 'Sum': return [results, tokens_in_wordlist]
+        elif calculation_type == 'Average':
             if totals['composed/anxious'] > 0:
-                results['composed/anxious'] / totals['composed/anxious']
+                results['composed/anxious'] /= totals['composed/anxious']
             if totals['agreeable/hostile'] > 0:
-                results['agreeable/hostile'] / totals['agreeable/hostile']
+                results['agreeable/hostile'] /= totals['agreeable/hostile']
             if totals['elated/depressed'] > 0:
-                results['elated/depressed']  / totals['elated/depressed']
+                results['elated/depressed']  /= totals['elated/depressed']
             if totals['confident/unsure'] > 0:
-                results['confident/unsure']  / totals['confident/unsure']
+                results['confident/unsure']  /= totals['confident/unsure']
             if totals['clearheaded/confused'] > 0:
-                results['clearheaded/confused']  / totals['clearheaded/confused']
+                results['clearheaded/confused']  /= totals['clearheaded/confused']
             if totals['energetic/tired'] > 0:
-                results['energetic/tired']  / totals['energetic/tired']
+                results['energetic/tired']  /= totals['energetic/tired']
 
             return [results, tokens_in_wordlist]
 
